@@ -11,13 +11,22 @@ services:
       MYSQL_PASSWORD: engelsystem
       MYSQL_DATABASE: engelsystem
     ports:
-      - "5080:80"
+      - "8080:80"
     env_file: deployment.env
     networks:
       - database
       - internet
     depends_on:
       - es_database
+    volumes:
+      - type: bind
+        source: ${PWD}/../config/config.php
+        target: /var/www/config/config.php
+        #certbot:
+        #image: certbot/certbot:latest
+        #volumes:
+        #- ./certbot/www/:/var/www/certbot/:rw
+        #- ./certbot/conf/:/etc/letsencrypt/:rw
   es_database:
     image: mariadb:10.7
     environment:
